@@ -12,22 +12,33 @@ public class Duke {
         System.out.println("Hello! I'm Duke\n" +
                 "What can I do for you?");
         System.out.println("____________________________________________________________");
+
         Scanner input = new Scanner(System.in);
         String command = input.nextLine();
-        ArrayList<String> store = new ArrayList<String>();
-        int num = 1;
+        ArrayList<Task> store = new ArrayList<Task>();
+        int num = 1; // count num of tasks added
+
         while (!command.equals("bye")) {
-            if (!command.equals("list")) {
+            String[] done = command.split(" ");
+            if (!command.equals("list") && !done[0].equals("done")) {
+                Task obj = new Task(command, false);
                 //add command to the list
-                store.add(command);
+                store.add(obj);
                 System.out.println("added: "+command);
-            } else {
+            } else if (command.equals("list")){
                 //print list
-                for (String i : store) {
+                for (Task i : store) {
                     System.out.print(num+". ");
-                    System.out.println(i);
+                    System.out.println(i.getIcon()+" "+i.name);
                     num++;
                 }
+            } else {
+                //mark task as done
+                int tasknum = Integer.parseInt(done[1]); //convert string to int
+                tasknum -= 1;
+                store.get(tasknum).isDone = true;
+                System.out.println("Nice! I've marked this task as done:");
+                System.out.println(store.get(tasknum).getIcon() + " " + store.get(tasknum).name);
             }
             command = input.nextLine();
         }
