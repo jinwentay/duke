@@ -34,29 +34,50 @@ public class Duke {
             String[] done = command.split(" ", 2);
             String[] deadline = command.split("/by ");
             String[] event = command.split("/at ");
-
             if (!command.equals("list") && !done[0].equals("done")) { //to do, deadline, event
-                System.out.println("Got it. I've added this task: ");
-
                 //add command to the list
                 if (done[0].equals("todo")) {
-                    Task obj = new Task(done[1], false, done[0]);
-                    store.add(obj);
-                    tasks[index] = new ToDos(done[1]);
+                    try {
+                        Task obj = new Task(done[1], false, done[0]);
+                        store.add(obj);
+                        tasks[index] = new ToDos(done[1]);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println("OOPS!!! The description of a todo cannot be empty.");
+                    }
                 } else if (done[0].equals("deadline")) {
-                    String[] Dtask = done[1].split("/by ");
-                    Task obj = new Task(Dtask[1], false, done[0]);
-                    store.add(obj);
-                    tasks[index] = new Deadlines(Dtask[0], deadline[1]);
+                    try {
+                        String[] Dtask = done[1].split("/by ");
+                        Task obj = new Task(Dtask[1], false, done[0]);
+                        store.add(obj);
+                        tasks[index] = new Deadlines(Dtask[0], deadline[1]);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println("OOPS!!! The description of a deadline cannot be empty.");
+                    }
+                } else if (done[0].equals("event")){
+                    try {
+                        String[] Etask = done[1].split("/at ");
+                        Task obj = new Task(Etask[1], false, done[0]);
+                        store.add(obj);
+                        tasks[index] = new Events(Etask[0], event[1]);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println("OOPS!!! The description of a todo cannot be empty.");
+                    }
                 } else {
-                    String[] Etask = done[1].split("/at ");
-                    Task obj = new Task(Etask[1], false, done[0]);
-                    store.add(obj);
-                    tasks[index] = new Events(Etask[0], event[1]);
+                    try {
+                        throw new DukeException(done[0]);
+                    }
+                    catch (DukeException e) {
+                        System.out.println("OOPS!!! I'm sorry, but I don't know what that means :-(");
+                    }
                 }
 
-                System.out.println("  "+tasks[index].toString());
-                System.out.println("Now you have "+Integer.toString(index+1)+" tasks in the list");
+                try {
+                    String empty = tasks[index].toString();
+                    System.out.println("Got it. I've added this task: ");
+                    System.out.println("  " + tasks[index].toString());
+                    System.out.println("Now you have " + Integer.toString(index + 1) + " tasks in the list");
+                } catch (NullPointerException e) {
+                }
                 index++;
             } else if (command.equals("list")){
                 listTasks(num, store);
