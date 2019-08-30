@@ -1,6 +1,11 @@
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Duke {
     public static void listTasks(int num, ArrayList<Task> store) {
         System.out.println("Here are the tasks in your list:");
@@ -87,6 +92,17 @@ public class Duke {
         }
     }
 
+    public static Date StringToDate(String original) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HHmm");
+        Date newdate = null;
+        try {
+            newdate = formatter.parse(original);
+        } catch (ParseException p) {
+            System.out.println("Please key in the date and time dd/MM/yyyy HHmm format.");
+        }
+        return newdate;
+    }
+
     public static void main(String[] args) {
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -126,9 +142,11 @@ public class Duke {
                     try {
                         String[] Dtask = done[1].split("/by ");
                         //Task obj = new Task(Dtask[0], false, done[0]);
-                        Task obj = new Deadlines(Dtask[0], deadline[1]);
+                        Date date = StringToDate(deadline[1]);
+                        DateFormat dateformat =new SimpleDateFormat("dd MMMM yyyy, HHmm");
+                        String sdate = dateformat.format(date);
+                        Task obj = new Deadlines(Dtask[0], sdate);
                         store.add(obj);
-
                     } catch (ArrayIndexOutOfBoundsException e) {
                         System.out.println("OOPS!!! The description of a deadline cannot be empty.");
                     }
@@ -136,7 +154,10 @@ public class Duke {
                     try {
                         String[] Etask = done[1].split("/at ");
                         //Task obj = new Task(Etask[0], false, done[0]);
-                        Task obj = new Events(Etask[0], event[1]);
+                        Date date = StringToDate(event[1]);
+                        DateFormat dateformat =new SimpleDateFormat("dd MMMM yyyy, HHmm");
+                        String sdate = dateformat.format(date);
+                        Task obj = new Events(Etask[0], sdate);
                         store.add(obj);
 
                     } catch (ArrayIndexOutOfBoundsException e) {
