@@ -20,7 +20,7 @@ public class Duke {
     {
         File fileToAppend = new File("duke.txt");
         BufferedReader reader = null;
-        reader = new BufferedReader(new FileReader(fileContent));
+        reader = new BufferedReader(new FileReader(fileToAppend));
         String line = reader.readLine();
         //write current items to file
         while (line != null) {
@@ -118,7 +118,6 @@ public class Duke {
         Scanner input = new Scanner(System.in);
         String command = input.nextLine();
 
-        //Task[] tasks = new Task[100];
         ArrayList<Task> store = new ArrayList<Task>();
         int num = 1; // count num of tasks added
         int index = 0;
@@ -128,7 +127,7 @@ public class Duke {
             String[] deadline = command.split("/by ");
             String[] event = command.split("/at ");
             if (!command.equals("list") && !done[0].equals("done")) { //to do, deadline, event
-                //add command to the list
+                //add command to the list (to-do/deadline/event/delete)
                 if (done[0].equals("todo")) {
                     try {
                         //Task obj = new Task(done[1], false, done[0]);
@@ -141,7 +140,6 @@ public class Duke {
                 } else if (done[0].equals("deadline")) {
                     try {
                         String[] Dtask = done[1].split("/by ");
-                        //Task obj = new Task(Dtask[0], false, done[0]);
                         Date date = StringToDate(deadline[1]);
                         DateFormat dateformat =new SimpleDateFormat("dd MMMM yyyy, HHmm");
                         String sdate = dateformat.format(date);
@@ -153,7 +151,6 @@ public class Duke {
                 } else if (done[0].equals("event")){
                     try {
                         String[] Etask = done[1].split("/at ");
-                        //Task obj = new Task(Etask[0], false, done[0]);
                         Date date = StringToDate(event[1]);
                         DateFormat dateformat =new SimpleDateFormat("dd MMMM yyyy, HHmm");
                         String sdate = dateformat.format(date);
@@ -163,6 +160,11 @@ public class Duke {
                     } catch (ArrayIndexOutOfBoundsException e) {
                         System.out.println("OOPS!!! The description of a todo cannot be empty.");
                     }
+                } else if (done[0].equals("delete")) {
+                    int toDelete = Integer.parseInt(done[1]) - 1;
+                    System.out.println("Noted. I've removed this task:");
+                    System.out.println("  " + store.get(toDelete).toString());
+                    store.remove(toDelete);
                 } else {
                     try {
                         throw new DukeException(done[0]);
@@ -172,12 +174,17 @@ public class Duke {
                     }
                 }
 
+                //print task statements
                 try {
-                    String empty = store.get(index).toString();
-                    System.out.println("Got it. I've added this task: ");
-                    System.out.println("  " + store.get(index).toString());
-                    System.out.println("Now you have " + Integer.toString(index + 1) + " tasks in the list");
-                    index++;
+                    if (!done[0].equals("delete")) {
+                        String empty = store.get(index).toString();
+                        System.out.println("Got it. I've added this task: ");
+                        System.out.println("  " + store.get(index).toString());
+                        index++;
+                    } else {
+                        index--;
+                    }
+                    System.out.println("Now you have " + Integer.toString(index) + " tasks in the list");
                 } catch (NullPointerException e) {
                 }
 

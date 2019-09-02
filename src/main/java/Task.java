@@ -18,10 +18,10 @@ public class Task {
         return (isDone ? "[#]" : "[X]"); //get tick or X symbols
     }
 
-    public String getTask() {
-        taskType = taskType.equals("todo") ? "[T]" : taskType.equals("deadline") ? "[D]" : "[E]";
-        return taskType;
-    }
+//    public String getTask() {
+//        taskType = taskType.equals("todo") ? "[T]" : taskType.equals("deadline") ? "[D]" : "[E]";
+//        return taskType;
+//    }
 
     @Override
     public String toString() {
