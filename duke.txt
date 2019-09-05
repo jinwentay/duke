@@ -1,7 +1,12 @@
 [T][X] swim
-[D][#] submission  (by: Sunday)
-[E][X] birthday aprty  (at: Monday 2-4pm)
-[D][X] code  (by: 02 November 1999, 1800)
+[D][#] submission (by: Sunday)
+[E][X] birthday (at: Monday 2-4pm)
 [T][#] funrun
-[T][#] run
 [T][X] swim
+[T][X] run
+[D][X] run (by: 02 November 2019, 1800)
+[T][X] swim
+[T][X] tutorial
+[T][X] runnnn
+[D][X] presentation (by: 08 March 2019, 1800)
+[T][X] partyyyy

@@ -1,5 +1,5 @@
 public class ToDos extends Task {
-    static String icon;
+    public static String icon;
     public ToDos(String name) {
         super(name);
         this.icon = "[T]";
