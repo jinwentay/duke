@@ -1,12 +1,9 @@
-[T][X] swim
 [D][#] submission (by: Sunday)
 [E][X] birthday (at: Monday 2-4pm)
 [T][#] funrun
-[T][X] swim
-[T][X] run
-[D][X] run (by: 02 November 2019, 1800)
-[T][X] swim
 [T][X] tutorial
-[T][X] runnnn
 [D][X] presentation (by: 08 March 2019, 1800)
-[T][X] partyyyy
+[T][#] partyyyy
+[T][X] swim
+[T][X] wrap
+[T][X] submit

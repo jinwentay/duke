@@ -1,25 +1,24 @@
 import java.io.IOException;
 import java.util.ArrayList;
 public class Duke {
-    private static TaskCommands taskCommands;
+    public static TaskCommands taskCommands;
+
 
     public static void main(String[] args) {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("____________________________________________________________\n"
-                + logo);
-        System.out.println("Hello! I'm Duke\n" +
-                "What can I do for you?");
-        System.out.println("____________________________________________________________");
+        Ui ui = new Ui();
+        ui.showWelcome();
         Boolean isExit = false;
         ArrayList<Task> store = new ArrayList<Task>();
         Storage storage = new Storage(store);
+        String command;
         while (!isExit) {
-            taskCommands = new TaskCommands(store);
-            isExit = taskCommands.isExit();
+            command = ui.readCommand();
+            try {
+                taskCommands = new TaskCommands(store, command);
+                isExit = taskCommands.isExit(command);
+            } catch (DukeException e) {
+                ui.showError(e.error());
+            }
         }
         try {
             storage.usingBufferedWritter(store);

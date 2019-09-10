@@ -7,9 +7,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class TaskCommands {
-    Scanner input = new Scanner(System.in);
-    String command = input.nextLine();
-    public TaskCommands(ArrayList<Task> store) {
+    public TaskCommands(ArrayList<Task> store, String command) throws DukeException {
         int num = 1; // count num of tasks added
         String[] done = command.split(" ", 2);
         String[] deadline = command.split("/by ");
@@ -24,7 +22,7 @@ public class TaskCommands {
                         Task obj = new ToDos(done[1]);
                         store.add(obj);
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        System.out.println("OOPS!!! The description of a todo cannot be empty.");
+                        throw new DukeException("todo");
                     }
                 } else if (done[0].equals("deadline")) {
                     try {
@@ -35,7 +33,7 @@ public class TaskCommands {
                         Task obj = new Deadlines(Dtask[0], sdate);
                         store.add(obj);
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        System.out.println("OOPS!!! The description of a deadline cannot be empty.");
+                        throw new DukeException("deadline");
                     }
                 } else if (done[0].equals("event")) {
                     try {
@@ -45,9 +43,8 @@ public class TaskCommands {
                         String sdate = dateformat.format(date);
                         Task obj = new Events(Etask[0], sdate);
                         store.add(obj);
-
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        System.out.println("OOPS!!! The description of a todo cannot be empty.");
+                        throw new DukeException("event");
                     }
                 } else if (done[0].equals("delete")) {
                     int toDelete = Integer.parseInt(done[1]) - 1;
@@ -59,13 +56,16 @@ public class TaskCommands {
                         search(done[1], store);
                     } catch (NumberFormatException ex) {
                         System.out.println("OOPS!! ");
+                    } catch (ArrayIndexOutOfBoundsException a) {
+                        throw new DukeException("find");
                     }
                 } else {
-                    try {
-                        throw new DukeException(done[0]);
-                    } catch (DukeException e) {
-                        System.out.println("OOPS!!! I'm sorry, but I don't know what that means :-(");
-                    }
+                    throw new DukeException("unknown");
+//                    try {
+//                        throw new DukeException(done[0]);
+//                    } catch (DukeException e) {
+//                        System.out.println("OOPS!!! I'm sorry, but I don't know what that means :-(");
+//                    }
                 }
 
                 //print task statements
@@ -74,8 +74,9 @@ public class TaskCommands {
                         System.out.println("Got it. I've added this task: ");
                         System.out.println("  " + store.get(store.size() - 1).toString());
                     }
-                    System.out.println("Now you have " + Integer.toString(store.size()) + " tasks in the list");
+                    System.out.println("Now you have " + store.size() + " tasks in the list");
                 } catch (NullPointerException e) {
+                    throw new DukeException("null");
                 }
 
             } else if (command.equals("list")) {
@@ -93,7 +94,7 @@ public class TaskCommands {
         }
     }
 
-    public boolean isExit() {
+    public boolean isExit(String command) {
         if (command.equals("bye")) {
             return true;
         } else {
