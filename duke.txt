@@ -7,3 +7,4 @@
 [T][X] swim
 [T][X] wrap
 [T][X] submit
+[T][X] cut nails

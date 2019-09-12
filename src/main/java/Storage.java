@@ -3,15 +3,16 @@ import java.util.ArrayList;
 
 public class Storage {
     String fileContent = "";
-    public Storage(ArrayList<Task> store) {
+    public static ArrayList<Task> store = new ArrayList<Task>();
+    public Storage(String filePath) {
         try {
-            readFile(fileContent, store);
+            readFile(fileContent, filePath);
         } catch (IOException e) {
             System.out.println("OOPS!!! There is no existing file to be read.");
         }
     }
-    public static void readFile(String fileContent, ArrayList<Task> store) throws IOException {
-        File fileToAppend = new File("duke.txt");
+    public static void readFile(String fileContent, String path) throws IOException {
+        File fileToAppend = new File(path);
         BufferedReader reader = null;
         reader = new BufferedReader(new FileReader(fileToAppend));
         String line = reader.readLine();
@@ -39,7 +40,10 @@ public class Storage {
             line = reader.readLine();
         }
     }
-    public void usingBufferedWritter(ArrayList<Task> store) throws IOException
+    public static ArrayList<Task> load() {
+        return store;
+    }
+    public void usingBufferedWritter() throws IOException
     {
         for (Task i : store) {
             fileContent += i.toString() + "\n";
